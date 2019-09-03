@@ -1,4 +1,5 @@
 import bagel.*;
+import bagel.util.Rectangle;
 import bagel.util.Vector2;
 import bagel.util.Point;
 

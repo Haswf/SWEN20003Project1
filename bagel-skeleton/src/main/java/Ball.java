@@ -29,6 +29,7 @@ public class Ball extends GameObject{
 
     public void reCalculatedPosition(){
         Point newPosition = (this.getPosition().asVector()).add(this.velocity.getVelocity()).asPoint();
+        this.updateBoundingBox();
         this.setPosition(newPosition);
     }
 }
