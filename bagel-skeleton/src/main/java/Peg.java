@@ -1,10 +1,15 @@
 import bagel.*;
-import bagel.util.Rectangle;
-import bagel.util.Vector2;
 import bagel.util.Point;
 
+/**
+ * A class representing peg in ShadowBounce.
+ *
+ * @author Shuyang Fan
+ */
+
+
 public class Peg extends GameObject{
-    public Peg(Point position, Image image){
-        super(position, image);
+    public Peg(Point position, Image image, Boolean visible){
+        super(position, image, visible);
     }
 }

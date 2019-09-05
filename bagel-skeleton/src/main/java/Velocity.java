@@ -1,60 +1,115 @@
 import bagel.util.Vector2;
 import bagel.util.Point;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A class to manipulate velocity for game ShadowBounce
+ *
+ * @author Shuyang Fan
+ */
 
 public class Velocity {
+    // velocity is internally represented as unit vector direction * speed
     private Vector2 direction;
     private double speed;
 
-    public Velocity(Vector2 direction, double speed){
+    /*
+     Create a velocity object  with a given direction and speed
+     */
+    public Velocity(@NotNull Vector2 direction, double speed) {
+        // normalise direction in case it's not normalised
         this.direction = direction.normalised();
         this.speed = speed;
     }
 
-    public Velocity(Vector2 newVelocity){
+    /*
+     Create a velocity object with a given Vector2
+     */
+    public Velocity(@NotNull Vector2 newVelocity) {
         setDirection(newVelocity.normalised());
         setSpeed(newVelocity.length());
     }
 
-    public Vector2 getDirection(){
+    /*
+     Copy constructor for Velocity
+     */
+    public Velocity(Velocity other) {
+        this.direction = new Vector2(other.direction.x, other.direction.y);
+        this.speed = other.speed;
+    }
+
+    /*
+     Return the direction as a Vector2
+     */
+    public Vector2 getDirection() {
+        // manually create new Vector2 since copy constructor of Vector2 is not provided.
         return new Vector2(this.direction.x, this.direction.y);
     }
 
-    public void setDirection(Vector2 newDirection){
-        this.direction = newDirection;
+    /*
+       Set the direction of movement with a given normal vector
+     */
+    public void setDirection(Vector2 newDirection) {
+        this.direction = newDirection.normalised();
     }
 
-    public double getSpeed(){
+    /*
+     Return the speed of movement as a double.
+     */
+    public double getSpeed() {
         return this.speed;
     }
 
-    public void setSpeed(Double newSpeed){
+    /*
+     Set the speed of movement with a given double.
+     */
+    public void setSpeed(Double newSpeed) {
         this.speed = newSpeed;
     }
 
-    public Velocity add(Vector2 offset){
-        setDirection(this.direction.mul(this.speed).add(offset).normalised());
-        setSpeed(this.direction.mul(this.speed).add(offset).length());
+    /*
+     Offset the velocity with a given Vector2.
+     */
+    public Velocity add(Vector2 offset) {
+        Vector2 newVelocity = this.direction.mul(this.speed).add(offset);
+        setDirection(newVelocity.normalised());
+        setSpeed(newVelocity.length());
         return this;
     }
 
-    public double getXSpeed(){
+    /*
+     Return a double representing horizontal speed.
+     */
+    public double getXSpeed() {
         return this.getDirection().x * this.getSpeed();
     }
 
-    public double getYSpeed(){
+    /*
+     Return a double representing vertical speed.
+     */
+    public double getYSpeed() {
         return this.getDirection().y * this.getSpeed();
     }
 
-    public Vector2 getVelocity(){
+    /*
+     Return current velocity as a Vector2
+     */
+    public Vector2 asVector() {
         return this.direction.mul(this.speed);
     }
 
-    public Velocity reverseHorizontal(){
+    /*
+     Reverse horizontal velocity
+     */
+    public Velocity reverseHorizontal() {
         setDirection(new Vector2(this.getDirection().x * -1, this.getDirection().y));
         return this;
     }
 
-    public Velocity reverseVertical(){
+    /*
+     Reverse vertical velocity
+     */
+    public Velocity reverseVertical() {
         setDirection(new Vector2(this.getDirection().x, this.getDirection().y * -1));
         return this;
     }

@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37efd5be-a258-49df-8183-4d9887f23d03" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/bagel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/bagel_alt.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Peg.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Peg.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ShadowBounce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ShadowBounce.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/bagel.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/bagel.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Velocity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Velocity.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -41,6 +40,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -101,6 +101,14 @@
       <updated>1567425569788</updated>
       <workItem from="1567425571014" duration="10959000" />
       <workItem from="1567480190962" duration="2534000" />
+      <workItem from="1567486792715" duration="7000" />
+      <workItem from="1567486880151" duration="2581000" />
+      <workItem from="1567490919987" duration="97000" />
+      <workItem from="1567574543344" duration="80000" />
+      <workItem from="1567575700994" duration="82000" />
+      <workItem from="1567644218025" duration="139000" />
+      <workItem from="1567645861394" duration="2743000" />
+      <workItem from="1567654271479" duration="7716000" />
     </task>
     <servers />
   </component>
@@ -112,7 +120,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
