@@ -19,26 +19,36 @@ public class ShadowBounce extends AbstractGame {
     private double maxX = 1024;
     private double minY = 100;
     private double maxY = 768;
-
+    private Image background;
     /*
      * ShadowBounce
      */
-
     public ShadowBounce() {
         Random random = new Random(); // random generator to randomly place Peg
         initPosition = new Point(512, 32); // initial position where Ball will be generated
-
+        background = new Image("res/background.jpg");
         ball = new Ball(initPosition, new Image("res/ball.png"));
 
         pegs = new Peg[numOfPegs]; // An array of pegs
 
         // Randomly generate 50 pegs
         for (int i=0;i<numOfPegs;i++){
-            pegs[i] = new Peg(new Point(
-                    random.nextDouble()*maxX + minX,
-                    random.nextDouble()*(maxY-minY)+minY),
-                    new Image("res/peg.png"),
-                    true);
+            Point position = new Point(0, 0);
+            boolean isOverlapped = true;
+            outer: while (isOverlapped){
+                position = new Point(random.nextDouble()*maxX + minX, random.nextDouble()*(maxY-minY)+minY);
+                for (int j=0; j<i; j++){
+                    double distance = pegs[j].getPosition().asVector().sub(position.asVector()).length();
+                    double right = pegs[j].getBoundingBox().right();
+                    double left = pegs[j].getBoundingBox().left();
+                    if (distance < right - left){
+                        isOverlapped = true;
+                        continue outer;
+                    }
+                }
+                break;
+            }
+            pegs[i] = new Peg(position, new Image("res/peg.png"), true);
         }
     }
 
@@ -59,7 +69,7 @@ public class ShadowBounce extends AbstractGame {
         if (input.isDown(MouseButtons.LEFT) && !ball.getVisibility()) {
             ball.setPosition(initPosition);
             Point mousePosition = input.getMousePosition();
-            Vector2 mouseDirection = mousePosition.asVector().add(initPosition.asVector().mul(-1)).normalised();
+            Vector2 mouseDirection = mousePosition.asVector().sub(initPosition.asVector()).normalised();
             ball.setVelocity(new Velocity(mouseDirection, 10.0));
             ball.setVisibility(true);
         }
@@ -85,6 +95,9 @@ public class ShadowBounce extends AbstractGame {
         if (ball.getPosition().y > Window.getHeight()){
             ball.setVisibility(false);
         }
+        // Draw the background image
+        background.draw(Window.getWidth()/2.0,Window.getHeight()/2.0);
+
         // render the ball
         ball.render();
 

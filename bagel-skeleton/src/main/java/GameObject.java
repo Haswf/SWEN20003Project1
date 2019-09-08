@@ -114,6 +114,11 @@ abstract public class GameObject {
         this.boundingBox.moveTo(topLeft);
     }
 
+    /* Return distance from this GameObject to another. */
+    private double distance(GameObject other){
+        return other.getPosition().asVector().sub(this.getPosition().asVector()).length();
+    }
+
     /* Render the GameObject if its visibility is True */
     public void render() {
         if (this.getVisibility()) {
