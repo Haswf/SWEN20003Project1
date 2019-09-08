@@ -1,5 +1,4 @@
 import bagel.*;
-import bagel.util.Vector2;
 import bagel.util.Point;
 
 /**
@@ -10,15 +9,12 @@ import bagel.util.Point;
 public class Ball extends GameObject{
     private Velocity velocity;
 
-    /*
-    Basic constructor for Ball where velocity is not provided.
-     */
+    /* Basic constructor for Ball where velocity is not provided. */
     public Ball(Point position, Image image){
         super(position, image);
     }
 
-    /* Constructor for Ball with a given velocity
-    */
+    /* Constructor for Ball with a given velocity */
     public Ball(Point position, Image image, Velocity velocity){
         super(position, image);
         this.velocity = velocity;

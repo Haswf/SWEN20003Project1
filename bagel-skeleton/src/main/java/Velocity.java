@@ -1,6 +1,4 @@
 import bagel.util.Vector2;
-import bagel.util.Point;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * A class to manipulate velocity for game ShadowBounce
@@ -16,7 +14,7 @@ public class Velocity {
     /*
      Create a velocity object  with a given direction and speed
      */
-    public Velocity(@NotNull Vector2 direction, double speed) {
+    public Velocity(Vector2 direction, double speed) {
         // normalise direction in case it's not normalised
         this.direction = direction.normalised();
         this.speed = speed;
@@ -25,7 +23,7 @@ public class Velocity {
     /*
      Create a velocity object with a given Vector2
      */
-    public Velocity(@NotNull Vector2 newVelocity) {
+    public Velocity(Vector2 newVelocity) {
         setDirection(newVelocity.normalised());
         setSpeed(newVelocity.length());
     }

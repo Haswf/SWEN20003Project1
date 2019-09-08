@@ -4,57 +4,70 @@ import bagel.util.Vector2;
 import java.util.Random;
 
 /**
- * An example Bagel game.
+ * An simple ball game.
  *
- * @author Eleanor McMurtry
+ * @author Shuyang Fan
  */
 public class ShadowBounce extends AbstractGame {
-    private Point initPosition;
+    private Image background;
+    private final Point initPosition;
     private Ball ball;
     private int numOfPegs = 50;
     private Peg[] pegs;
 
     // the range where peg will be randomly generated.
-    private double minX = 0;
-    private double maxX = 1024;
-    private double minY = 100;
-    private double maxY = 768;
-    private Image background;
-    /*
-     * ShadowBounce
-     */
+    private static final double MIN_X = 0;
+    private static final double MAX_X = 1024;
+    private static final double MIN_Y = 100;
+    private static final double MAX_Y = 768;
+
+    private static final double INIT_X = 512;
+    private static final double INIT_Y = 32;
+
+    // Downward acceleration due to gravity
+    private double gravityAcceleartion;
+    // initial speed of the ball
+    private double initSpeed;
+
+    /* ShadowBounce */
     public ShadowBounce() {
         Random random = new Random(); // random generator to randomly place Peg
-        initPosition = new Point(512, 32); // initial position where Ball will be generated
+        initPosition = new Point(INIT_X, INIT_Y); // initial position where Ball will be generated
         background = new Image("res/background.jpg");
         ball = new Ball(initPosition, new Image("res/ball.png"));
-
         pegs = new Peg[numOfPegs]; // An array of pegs
+
+        // Acceleration due to gravity
+        gravityAcceleartion = 0.15;
+        // initial speed of the ball
+        initSpeed = 10;
 
         // Randomly generate 50 pegs
         for (int i=0;i<numOfPegs;i++){
-            Point position = new Point(0, 0);
-            boolean isOverlapped = true;
-            outer: while (isOverlapped){
-                position = new Point(random.nextDouble()*maxX + minX, random.nextDouble()*(maxY-minY)+minY);
+            pegs[i] = new Peg(new Point(0, 0), new Image("res/peg.png"), true);
+
+            // Choose position so the pegs don't overlap
+            outer: while (true){
+                Point position = new Point(random.nextDouble()*MAX_X+MIN_X,
+                                        random.nextDouble()*(MAX_Y-MIN_Y)+MIN_Y);
+                pegs[i].setPosition(position);
                 for (int j=0; j<i; j++){
-                    double distance = pegs[j].getPosition().asVector().sub(position.asVector()).length();
+                    double distance = pegs[j].distance(pegs[i]);
                     double right = pegs[j].getBoundingBox().right();
                     double left = pegs[j].getBoundingBox().left();
+                    // if the distance between 2 pegs is smaller than 2*r where r is radius of the peg
                     if (distance < right - left){
-                        isOverlapped = true;
+                        // generate a new position and try again.
                         continue outer;
                     }
                 }
+                // if the peg won't overlap with any existing pegs, break
                 break;
             }
-            pegs[i] = new Peg(position, new Image("res/peg.png"), true);
         }
     }
 
-    /**
-     * The entry point for the program.
-     */
+    /* The entry point for the program. */
     public static void main(String[] args) {
         ShadowBounce game = new ShadowBounce();
         game.run();
@@ -66,11 +79,14 @@ public class ShadowBounce extends AbstractGame {
      */
     @Override
     public void update(Input input) {
+        /* Make the ball start off moving towards the mouse if it's invisible */
         if (input.isDown(MouseButtons.LEFT) && !ball.getVisibility()) {
             ball.setPosition(initPosition);
             Point mousePosition = input.getMousePosition();
+            // Calculate normal vector from init point to mouse position.
             Vector2 mouseDirection = mousePosition.asVector().sub(initPosition.asVector()).normalised();
-            ball.setVelocity(new Velocity(mouseDirection, 10.0));
+            ball.setVelocity(new Velocity(mouseDirection, initSpeed));
+            // Make ball visible so it will be rendered in next frame.
             ball.setVisibility(true);
         }
 
@@ -83,26 +99,26 @@ public class ShadowBounce extends AbstractGame {
         if (ball.getVisibility()){
             ball.recalculatePosition(); // recalculate position based on velocity
             // increase vertical speed to simulate gravity if the Ball is visible.
-            ball.setVelocity(ball.getVelocity().add(new Vector2(0, 0.15)));
+            ball.setVelocity(ball.getVelocity().add(Vector2.down.mul(gravityAcceleartion)));
         }
 
-        // reverse horizontal movement when the ball reaches the left or right sides.
+        // Reverse horizontal movement when the ball reaches the left or right sides.
         if (ball.getPosition().x < 0 || ball.getPosition().x > Window.getWidth()){
             ball.setVelocity(ball.getVelocity().reverseHorizontal());
         }
 
-        // make the ball invisible when it drops out of the window
+        // Make the ball invisible when it drops out of the window
         if (ball.getPosition().y > Window.getHeight()){
             ball.setVisibility(false);
         }
         // Draw the background image
         background.draw(Window.getWidth()/2.0,Window.getHeight()/2.0);
 
-        // render the ball
+        // Render the ball
         ball.render();
 
         for (int i=0;i<numOfPegs;i++){
-            // make the peg disappear if it was hit by the ball
+            // Make the peg disappear if it was hit by the ball
             if (ball.getBoundingBox().intersects(pegs[i].getBoundingBox())){
                 pegs[i].setVisibility(false);
             }

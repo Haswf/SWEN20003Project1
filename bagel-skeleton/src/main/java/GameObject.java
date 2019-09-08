@@ -1,11 +1,12 @@
 import bagel.*;
 import bagel.util.Point;
 import bagel.util.Rectangle;
-import org.jetbrains.annotations.NotNull;
 
 /**
- * An abstract GameObject class.
- *
+ * An abstract GameObject class representing
+ * something on the screen.
+ * A typical GameObject has a position,
+ * image, visibility and bounding box.
  * @author Shuyang Fan
  */
 
@@ -18,14 +19,13 @@ abstract public class GameObject {
     private Rectangle boundingBox; // bounding box for collision detection
 
     // constructor for empty GameObject
-    @org.jetbrains.annotations.Contract(pure = true)
     public GameObject() {
         this.position = new Point(0, 0); // by default, the position is set to (0,0)
         this.visibility = false;
     }
 
     // constructor for GameObject where both position and image are provided.
-    public GameObject(Point position, @NotNull Image image) {
+    public GameObject(Point position, Image image) {
         this.position = position;
         this.image = image;
         this.visibility = false; // by default, the object is set to invisible
@@ -37,7 +37,7 @@ abstract public class GameObject {
     }
 
     // constructor for GameObject where position, image and visibility are provided.
-    public GameObject(Point position, @NotNull Image image, boolean visible) {
+    public GameObject(Point position, Image image, boolean visible) {
         this.position = position;
         this.image = image;
         this.visibility = visible;
@@ -49,7 +49,7 @@ abstract public class GameObject {
     }
 
     // copy constructor
-    public GameObject(@NotNull GameObject other) {
+    public GameObject(GameObject other) {
         this.position = new Point(other.position.x, other.position.y);
         if (other.getImage() != null) {
             this.topLeft = new Point(other.position.x - image.getWidth() / 2, other.position.y - image.getHeight() / 2);
@@ -115,7 +115,7 @@ abstract public class GameObject {
     }
 
     /* Return distance from this GameObject to another. */
-    private double distance(GameObject other){
+    public double distance(GameObject other){
         return other.getPosition().asVector().sub(this.getPosition().asVector()).length();
     }
 
